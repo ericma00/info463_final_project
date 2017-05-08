@@ -1,0 +1,34 @@
+body {
+	padding: 10px;
+	text-align: center;
+}
+
+main {
+	width: 312px;
+	height: 390px;
+	border: solid black 1px;
+}
+
+#inputText {
+	border: solid green 1px;
+}
+
+#dictionary {
+	border: solid red 1px;
+
+}
+
+.button {
+	border: solid blue 1px;
+}
+.button, #inputText, #dictionary {
+	height: 65px;
+}
+
+.button{ 
+	width: 104px;
+}
+
+#keyboard {
+	width: 312px;
+}
