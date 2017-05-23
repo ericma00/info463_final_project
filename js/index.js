@@ -9,14 +9,30 @@ $(function() {
 	var punctuation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '__', 'abc'];
 
 	// bottom Letter Index = 0, 2, 4, 5, 8, 11
-
-
+    // lowercase
 	var botLetter = ['v', 'p', 'd', 'u', 'c', 'x'];
 	var topLetter = ['q', 'l', 'z']
 	var rightLetter = ['w', 'k', 'f'];
 	var leftLetter = ['m', 'b', 'y'];
 
 	var centerKey = ['j', 'g'];
+    
+    // uppercase
+	var upbotLetter = ['V', 'P', 'D', 'U', 'C', 'X'];
+	var uptopLetter = ['Q', 'L', 'Z']
+	var uprightLetter = ['W', 'K', 'F'];
+	var upleftLetter = ['M', 'B', 'Y'];
+
+	var upcenterKey = ['J', 'G'];
+    
+    // punctuation
+	var puncbotLetter = ['!', '@', '#', '$', '%', '^'];
+	var punctopLetter = ['&', '*', '(']
+	var puncrightLetter = ['/', '-', ':'];
+	var puncleftLetter = ['?', '+', ';'];
+
+	var punccenterKey = ['=', '_'];    
+    
 
 	$('#clear').click(function() {
 		$('#inputText h1').empty();
@@ -25,6 +41,7 @@ $(function() {
 	// display initial keyboard
 	for (var i = 0; i < BUTTON_NUM; i++) {
 		var button = $('<div id="button' + (i + 1) + '" class="col col-sm-4 button" >');
+		button.append('<h3 class="letterAlign">' + lowerCase[i] + '</h3>');
 
 		button = displaySideKeys(button, i, botLetter, topLetter, leftLetter, rightLetter, centerKey);
 
@@ -128,72 +145,6 @@ $(function() {
 		} 
 		currentString.innerHTML = '<p>' + strings[index] + '</p>';
   	})    
-/********************* swipe events ****************************************/
-
-	swipe('button1', 0);
-	swipe('button2', 1);
-	swipe('button3', 2);
-	swipe('button4', 3);
-	swipe('button5', 4);
-	swipe('button6', 5);
-	swipe('button7', 6);
-	swipe('button8', 7);
-	swipe('button9', 8);
-
-	function swipe(id, index) {
-	  	var button = document.getElementById(id);
-
-	  	var options = {
-			preventDefault: true
-		}; 
-		var vertSwipe = new Hammer(button, options);
-		vertSwipe.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-		 	
-
-	  	//swipe down
-		if (index < 6) {
-			vertSwipe.on('swipedown', function(ev) {
-		  		var inputVal = $('#inputText h1').text();
-  				console.log(inputVal);
-  				$('#inputText h1').text(inputVal + botLetter[index]);
-  			})
-
-		}
-
-		// swipe up
-		if (index >= 6 && index <= 8) {
-			vertSwipe.on('swipeup', function(ev) {
-		  		var inputVal = $('#inputText h1').text();
-  				$('#inputText h1').text(inputVal + topLetter[index - 6]);
-  			})
-		}
-
-
-		// swipe right
-		if (index === 0 || index === 4 || index === 3 || index === 6) {
-			Hammer(button).on('swiperight', function(ev) {
-		  		var inputVal = $('#inputText h1').text();
-		  		if (index === 4) {
-		  			$('#inputText h1').text(inputVal + centerKey[1]);
-		  		} else {
-			  		$('#inputText h1').text(inputVal + rightLetter[index / 3]);
-		  		}
-			});
-		}
-
-		// swipe left
-		if (index === 2 || index === 4 || index === 5 || index === 8) {
-			Hammer(button).on('swipeleft', function(ev) {
-		  		var inputVal = $('#inputText h1').text();
-		  		if (index === 4) {
-			  		$('#inputText h1').text(inputVal + centerKey[0]);
-		  		} else {
-		  			$('#inputText h1').text(inputVal + leftLetter[Math.floor(index / 3)]);
-				}
-			});
-		}
-	}
-
 
 /**********************************************************************************/
 
@@ -243,7 +194,6 @@ $(function() {
 
 
 	function displaySideKeys(button, index, botLetter, topLetter, leftLetter, rightLetter, centerKey) {		
-		button.append('<h3 class="letterAlign">' + lowerCase[i] + '</h3>');
 
 		// display right Letters
 		if (index === 0 || index === 4 || index === 3 || index === 6) {
@@ -281,8 +231,18 @@ $(function() {
 	function changeKeyBoard(letterCase, changeCaps) {
 		for (var i = 0; i < BUTTON_NUM; i++) {
 			var button = $('<div id="button' + (i + 1) + '" class="col col-sm-4 button">');
-			button.append('<h3>' + letterCase[i] + '</h3>');
-				
+			button.append('<h3 class="letterAlign">' + letterCase[i] + '</h3>');
+
+			if (changeCaps === 'upCase') {
+				displaySideKeys(button, i, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey)
+
+			} else if (changeCaps === 'lowCase') {
+				displaySideKeys(button, i, botLetter, topLetter, leftLetter, rightLetter, centerKey)
+			} else {
+				displaySideKeys(button, i, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey)				
+			}
+
+
 			if (letterCase[i] === 'CAPS' || letterCase[i] === 'abc') {
 				if (changeCaps === 'upCase') {
 					button.attr('id', 'toLowCaps');	
@@ -300,6 +260,39 @@ $(function() {
 
 			$('#keyboard').append(button);			
 		}
+
+		if (changeCaps === 'upCase') {
+			swipe('button1', 0, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button2', 1, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button3', 2, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button4', 3, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button5', 4, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button6', 5, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button7', 6, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button8', 7, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button9', 8, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+
+		} else if (changeCaps === 'lowCase') {
+			swipe('button1', 0, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button2', 1, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button3', 2, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button4', 3, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button5', 4, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button6', 5, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button7', 6, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button8', 7, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button9', 8, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+		} else {
+			swipe('button1', 0, punctopLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button2', 1, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button3', 2, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button4', 3, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button5', 4, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button6', 5, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button7', 6, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button8', 7, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button9', 8, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+		}
 	}
 
 
@@ -307,8 +300,70 @@ $(function() {
 
 
 
+/********************* swipe events ****************************************/
+
+	swipe('button1', 0, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button2', 1, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button3', 2, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button4', 3, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button5', 4, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button6', 5, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button7', 6, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button8', 7, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button9', 8, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+
+	function swipe(id, index, botLetter, topLetter, leftLetter, rightLetter, centerKey) {
+	  	var button = document.getElementById(id);
+
+	  	var options = {
+			preventDefault: true
+		}; 
+		var vertSwipe = new Hammer(button, options);
+		vertSwipe.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+		 
+
+	  	//swipe down
+		if (index < 6) {
+			vertSwipe.on('swipedown', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+  				console.log(inputVal);
+  				$('#inputText h1').text(inputVal + botLetter[index]);
+  			})
+
+		}
+
+		// swipe up
+		if (index >= 6 && index <= 8) {
+			vertSwipe.on('swipeup', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+  				$('#inputText h1').text(inputVal + topLetter[index - 6]);
+  			})
+		}
 
 
+		// swipe right
+		if (index === 0 || index === 4 || index === 3 || index === 6) {
+			Hammer(button).on('swiperight', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+		  		if (index === 4) {
+		  			$('#inputText h1').text(inputVal + centerKey[1]);
+		  		} else {
+			  		$('#inputText h1').text(inputVal + rightLetter[index / 3]);
+		  		}
+			});
+		}
 
+		// swipe left
+		if (index === 2 || index === 4 || index === 5 || index === 8) {
+			Hammer(button).on('swipeleft', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+		  		if (index === 4) {
+			  		$('#inputText h1').text(inputVal + centerKey[0]);
+		  		} else {
+		  			$('#inputText h1').text(inputVal + leftLetter[Math.floor(index / 3)]);
+				}
+			});
+		}
+	}
 
 })
