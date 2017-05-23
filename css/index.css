@@ -12,9 +12,9 @@ main {
 	border: solid black 1px;
 	background-color: black;
 	-webkit-transform:scale(0.7);
--moz-transform:scale(0.7);
--ms-transform:scale(0.7);
-transform:scale(0.7);	
+	-moz-transform:scale(0.7);
+	-ms-transform:scale(0.7);
+	transform:scale(0.7);	
 }
 
 #inputText {
