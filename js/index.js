@@ -1,7 +1,10 @@
 $(function() {
+    /*
+    var testData = document.implementation.createDocument (null, 'xml', null);
+    var body = document.createElementNS(null, 'body'); 
+    testData.documentElement.appendChild(body);   */ 
+    
 	var BUTTON_NUM = 12;
-
-
 
 	var lowerCase =   ['n', 'a', 'h', 's', 'e', 'i', 'r', 'o', 't', 'CAPS', '__', '123'];
 	var upperCase =   ['N', 'A', 'H', 'S',' E', 'I', 'R', 'O', 'T', 'CAPS', '__', '123'];
@@ -231,8 +234,8 @@ $(function() {
 	    	$('#keyboard').empty();
 	    	changeKeyBoard(lowerCase, 'lowCase');
 	    } else {
-			var textVal = $('#inputText h1').text();
-			var appendVal = $(this).children('h3').text();
+			var textVal = $('#inputText h1').text(); // the current words in the text field
+			var appendVal = $(this).children('h3').text(); // the letter that was just pressed
 			if ($(this).text() === '__') {
 				appendVal = " ";
 			}
@@ -267,6 +270,8 @@ $(function() {
 	}
 
 	var test1 = document.getElementById('testStuff');
+
+    
 	// var test2 = $('#testStuff');
 	// console.log(test1);
 
@@ -285,3 +290,4 @@ $(function() {
  //  		console.log('hi');
  //  	})
 })
+

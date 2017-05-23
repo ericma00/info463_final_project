@@ -22,10 +22,15 @@ main {
 	border-radius: 15px;
 	width: 95%;
 	margin: 0 auto;
-	height: 58px;
+	height: 75px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	background-color: black;
+    display: inline-block;
+    overflow: scroll; 
+    overflow-y: hidden; 
+    overflow-x: auto; 
+    overflow:-moz-scrollbars-vertical;
 /*		text-align: left;
 */}
 
