@@ -8,31 +8,34 @@ $(function() {
 	var upperCase =   ['N', 'A', 'H', 'S',' E', 'I', 'R', 'O', 'T', 'CAPS', '__', '123'];
 	var punctuation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '__', 'abc'];
 
-	// bottom Letter Index = 0, 2, 4, 5, 8, 11
-    // lowercase
+// lowercase
 	var botLetter = ['v', 'p', 'd', 'u', 'c', 'x'];
 	var topLetter = ['q', 'l', 'z']
 	var rightLetter = ['w', 'k', 'f'];
 	var leftLetter = ['m', 'b', 'y'];
 
 	var centerKey = ['j', 'g'];
-    
-    // uppercase
+
+
+// uppercase
 	var upbotLetter = ['V', 'P', 'D', 'U', 'C', 'X'];
 	var uptopLetter = ['Q', 'L', 'Z']
 	var uprightLetter = ['W', 'K', 'F'];
 	var upleftLetter = ['M', 'B', 'Y'];
 
 	var upcenterKey = ['J', 'G'];
-    
-    // punctuation
+
+// punctuation
 	var puncbotLetter = ['!', '@', '#', '$', '%', '^'];
 	var punctopLetter = ['&', '*', '(']
 	var puncrightLetter = ['/', '-', ':'];
 	var puncleftLetter = ['?', '+', ';'];
 
-	var punccenterKey = ['=', '_'];    
-    
+	var punccenterKey = ['=', '_'];
+
+// bottom 
+	var botButtonPunc = ['.', ','];
+	var botButtonPunc2 = ['"', '?'];
 
 	$('#clear').click(function() {
 		$('#inputText h1').empty();
@@ -43,7 +46,7 @@ $(function() {
 		var button = $('<div id="button' + (i + 1) + '" class="col col-sm-4 button" >');
 		button.append('<h3 class="letterAlign">' + lowerCase[i] + '</h3>');
 
-		button = displaySideKeys(button, i, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+		button = displaySideKeys(button, i, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
 
 		if (lowerCase[i] === 'CAPS') {
 			button.attr('id', 'toUpCaps');
@@ -146,18 +149,19 @@ $(function() {
 		currentString.innerHTML = '<p>' + strings[index] + '</p>';
   	})    
 
+
 /**********************************************************************************/
 
-	// show that a mouse is hovering over a key
-	$('#keyboard').on('mouseenter', '.button', function() {
-		$(this).css('background-color', '#000000');
-	})
+	// // show that a mouse is hovering over a key
+	// $('#keyboard').on('mouseenter', '.button', function() {
+	// 	$(this).css('background-color', '#DCDCDC');
+	// })
 
-	// shows that a mouse is not hovering the key
-	$('#keyboard').on('mouseleave', '.button', function() {
-		$(this).css('background-color', '#222223');
+	// // shows that a mouse is not hovering the key
+	// $('#keyboard').on('mouseleave', '.button', function() {
+	// 	$(this).css('background-color', 'white');
 
-	})
+	// })
 
 
 
@@ -169,10 +173,9 @@ $(function() {
 
 	// when keys are pressed
 	$('#keyboard').on('click', '.button', function() {
-		var randNum = Math.floor(Math.random() * 5);
 		if ($(this).attr('id') === 'nums') {
 			$('#keyboard').empty();
-			changeKeyBoard(punctuation, 'upCase');
+			changeKeyBoard(punctuation, 'punctuation');
 		} else if ($(this).attr('id') === 'toUpCaps') {
 	    	// change to Upper;;
 	    	$('#keyboard').empty();
@@ -184,7 +187,7 @@ $(function() {
 	    } else {
 			var textVal = $('#inputText h1').text();
 			var appendVal = $(this).children('h3').text();
-			if ($(this).text() === '__') {
+			if ($(this).attr('id') === 'button11') {
 				appendVal = " ";
 			}
 			$('#inputText h1').text(textVal += appendVal);
@@ -193,7 +196,7 @@ $(function() {
 	});
 
 
-	function displaySideKeys(button, index, botLetter, topLetter, leftLetter, rightLetter, centerKey) {		
+	function displaySideKeys(button, index, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc) {		
 
 		// display right Letters
 		if (index === 0 || index === 4 || index === 3 || index === 6) {
@@ -223,6 +226,13 @@ $(function() {
 		if (index >= 6 && index <= 8) {
 			button.prepend('<h5>' + topLetter[index - 6] + '</h5>');			
 		}
+
+		if (index === 10) {
+			console.log('hi');
+			button.prepend('<h5>' + botButtonPunc[0] + '</h5>');
+			button.append('<h5 class="letterAlign">' + botButtonPunc[1] + '</h5>');
+		}
+		console.log(index);
 		return button;
 	}
 
@@ -234,12 +244,12 @@ $(function() {
 			button.append('<h3 class="letterAlign">' + letterCase[i] + '</h3>');
 
 			if (changeCaps === 'upCase') {
-				displaySideKeys(button, i, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey)
+				displaySideKeys(button, i, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc)
 
 			} else if (changeCaps === 'lowCase') {
-				displaySideKeys(button, i, botLetter, topLetter, leftLetter, rightLetter, centerKey)
+				displaySideKeys(button, i, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc)
 			} else {
-				displaySideKeys(button, i, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey)				
+				displaySideKeys(button, i, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2)				
 			}
 
 
@@ -248,9 +258,11 @@ $(function() {
 					button.attr('id', 'toLowCaps');	
 					button.css('background-color', 'black');
 					button.css('color', 'white');
+				} else if (changeCaps === 'punctuation') {
+					button.attr('id', 'toLowCaps');
+
 				} else {
 					button.attr('id', 'toUpCaps');
-
 				}
 			}
 
@@ -262,36 +274,40 @@ $(function() {
 		}
 
 		if (changeCaps === 'upCase') {
-			swipe('button1', 0, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button2', 1, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button3', 2, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button4', 3, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button5', 4, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button6', 5, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button7', 6, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button8', 7, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
-			swipe('button9', 8, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey);
+			swipe('button1', 0, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button2', 1, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button3', 2, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button4', 3, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button5', 4, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button6', 5, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button7', 6, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button8', 7, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button9', 8, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
+			swipe('button11', 10, upbotLetter, uptopLetter, upleftLetter, uprightLetter, upcenterKey, botButtonPunc);
 
 		} else if (changeCaps === 'lowCase') {
-			swipe('button1', 0, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button2', 1, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button3', 2, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button4', 3, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button5', 4, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button6', 5, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button7', 6, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button8', 7, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-			swipe('button9', 8, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+			swipe('button1', 0, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button2', 1, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button3', 2, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button4', 3, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button5', 4, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button6', 5, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button7', 6, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button8', 7, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button9', 8, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+			swipe('button11', 10, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
 		} else {
-			swipe('button1', 0, punctopLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button2', 1, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button3', 2, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button4', 3, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button5', 4, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button6', 5, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button7', 6, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button8', 7, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
-			swipe('button9', 8, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey);
+			swipe('button1', 0, punctopLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button2', 1, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button3', 2, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button4', 3, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button5', 4, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button6', 5, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button7', 6, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button8', 7, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button9', 8, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+			swipe('button11', 10, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2);
+
 		}
 	}
 
@@ -302,17 +318,18 @@ $(function() {
 
 /********************* swipe events ****************************************/
 
-	swipe('button1', 0, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button2', 1, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button3', 2, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button4', 3, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button5', 4, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button6', 5, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button7', 6, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button8', 7, botLetter, topLetter, leftLetter, rightLetter, centerKey);
-	swipe('button9', 8, botLetter, topLetter, leftLetter, rightLetter, centerKey);
+	swipe('button1', 0, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button2', 1, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button3', 2, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button4', 3, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button5', 4, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button6', 5, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button7', 6, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button8', 7, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button9', 8, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
+	swipe('button11', 10, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
 
-	function swipe(id, index, botLetter, topLetter, leftLetter, rightLetter, centerKey) {
+	function swipe(id, index, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc) {
 	  	var button = document.getElementById(id);
 
 	  	var options = {
@@ -333,23 +350,30 @@ $(function() {
 		}
 
 		// swipe up
-		if (index >= 6 && index <= 8) {
+		if (index >= 6 && index <= 8 || index === 10) {
+
 			vertSwipe.on('swipeup', function(ev) {
 		  		var inputVal = $('#inputText h1').text();
-  				$('#inputText h1').text(inputVal + topLetter[index - 6]);
+		  		if (index === 10) {
+  					$('#inputText h1').text(inputVal + botButtonPunc[0]);
+		  		} else {
+  					$('#inputText h1').text(inputVal + topLetter[index - 6]);
+  				}
   			})
 		}
 
 
 		// swipe right
-		if (index === 0 || index === 4 || index === 3 || index === 6) {
+		if (index === 0 || index === 4 || index === 3 || index === 6 || index === 10) {
 			Hammer(button).on('swiperight', function(ev) {
 		  		var inputVal = $('#inputText h1').text();
 		  		if (index === 4) {
 		  			$('#inputText h1').text(inputVal + centerKey[1]);
+		  		} else if (index === 10) {
+		  			$('#inputText h1').text(inputVal + botButtonPunc[1]);
 		  		} else {
 			  		$('#inputText h1').text(inputVal + rightLetter[index / 3]);
-		  		}
+		  		} 
 			});
 		}
 
@@ -364,6 +388,7 @@ $(function() {
 				}
 			});
 		}
+
 	}
 
 })
