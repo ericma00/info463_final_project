@@ -21,13 +21,9 @@ $(function() {
 
 	var config7 = ['z', 'y'];
 
-
-
 	// bottom Letter Index = 0, 2, 4, 5, 8, 11
 
-
-
-
+	// clear text field button
 	$('#clear').click(function() {
 		$('#inputText h1').empty();
 	})
@@ -97,15 +93,11 @@ $(function() {
 		}
 
 
-
 		$('#keyboard').append(button);
 		
 	}
 
-
 	var textInput = document.getElementById('inputText');
-
-
 
   	// swipe left --> backspace
   	Hammer(textInput).on('swipeleft', function() {
@@ -121,8 +113,18 @@ $(function() {
   		val.text(val.text() + ' ');
   	})
 
+	// Display string that user transcribes 
+	var currentString = document.getElementById('displayText');
+	var index = 0; //current index in the array of string
+	var strings = [
+			'The quick brown fox jumped over the lazy fence', 
+			'What is love, baby dont hurt me', 
+			'I like talking about online bakeries'
+			];
+	currentString.innerHTML = '<p>' + strings[index] + '</p>';
 
-  	// swipe up: exit Keyboard;
+
+  	// swipe up: clear Keyboard, shows next string in array;
   	var options = {
 		preventDefault: true
 	};
@@ -130,8 +132,13 @@ $(function() {
   	exitKeyboard.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
  	
   	exitKeyboard.on('swipeup', function(ev) {
-  		alert('sup');
-  		$('#keyboard').empty();
+		$('#inputText h1').empty();
+		index++;
+		if (index > strings.length - 1) { // reached end of string array
+			alert('test is done!');
+			index = 0;
+		} 
+		currentString.innerHTML = '<p>' + strings[index] + '</p>';
   	})
 
   // 	Hammer(textInput).on('swiperight', function() {
@@ -152,10 +159,6 @@ $(function() {
 	// 	alert('fjei;fjieafeja');
 	// })
 
-
-
-
-
 	// show that a mouse is hovering over a key
 	$('#keyboard').on('mouseenter', '.button', function() {
 		$(this).css('background-color', '#000000');
@@ -167,13 +170,9 @@ $(function() {
 
 	})
 
-
-
 	$('#testBox').mousemove(function(event) {
 		$('#report').text('X Coordinate: ' + event.pageX + ', Y Coordinate: ' + event.pageY);
 	})
-
-
 
 	// when keys are pressed
 	$('#keyboard').on('click', '.button', function() {
@@ -200,7 +199,6 @@ $(function() {
 		
 	});
 
-
 	// change keyboard depending on the type of keyboard wanted
 	function changeKeyBoard(letterCase, changeCaps) {
 		for (var i = 0; i < BUTTON_NUM; i++) {
@@ -226,8 +224,6 @@ $(function() {
 		}
 	}
 
-
-
 	var test1 = document.getElementById('testStuff');
 	// var test2 = $('#testStuff');
 	// console.log(test1);
@@ -246,14 +242,4 @@ $(function() {
  //  	Hammer(test1).on('swipeleft', function() {
  //  		console.log('hi');
  //  	})
-
-
-
-
-
-
-
-
-
-
 })
