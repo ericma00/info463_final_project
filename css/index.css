@@ -1,7 +1,9 @@
 body {
 	padding: 50px;
 	text-align: center;
-	background-color: black;
+	background-color: #222223;
+	color: #ffffff;
+	font-family: 'Roboto', sans-serif;
 }
 
 main {
@@ -9,26 +11,30 @@ main {
 	height: 390px;
 	border: solid black 1px;
 	background-color: black;
+	-webkit-transform:scale(0.7);
+-moz-transform:scale(0.7);
+-ms-transform:scale(0.7);
+transform:scale(0.7);	
 }
 
 #inputText {
-	border: solid green 1px;
+	border: solid #9d9d9d 1px;
 	border-radius: 15px;
 	width: 95%;
 	margin: 0 auto;
 	height: 58px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	background-color: white;
+	background-color: black;
 /*		text-align: left;
 */}
 
-
 .button {
-	border: solid blue 1px;
+	border: solid #9d9d9d 1px;
 /*	background-color: #cce5ff; */
 	height: 78px;
-	background-color: white;
+	background-color: #222223;
+	/*border-radius: 30px;*/
 }
 
 .button{ 

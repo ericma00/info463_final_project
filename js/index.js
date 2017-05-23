@@ -158,12 +158,12 @@ $(function() {
 
 	// show that a mouse is hovering over a key
 	$('#keyboard').on('mouseenter', '.button', function() {
-		$(this).css('background-color', '#DCDCDC');
+		$(this).css('background-color', '#000000');
 	})
 
 	// shows that a mouse is not hovering the key
 	$('#keyboard').on('mouseleave', '.button', function() {
-		$(this).css('background-color', 'white');
+		$(this).css('background-color', '#222223');
 
 	})
 
