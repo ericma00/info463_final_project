@@ -1,121 +1,50 @@
+'use strict'
 $(function() {
-    /*
-    var testData = document.implementation.createDocument (null, 'xml', null);
-    var body = document.createElementNS(null, 'body'); 
-    testData.documentElement.appendChild(body);   */ 
-    
 	var BUTTON_NUM = 12;
+
+
 
 	var lowerCase =   ['n', 'a', 'h', 's', 'e', 'i', 'r', 'o', 't', 'CAPS', '__', '123'];
 	var upperCase =   ['N', 'A', 'H', 'S',' E', 'I', 'R', 'O', 'T', 'CAPS', '__', '123'];
 	var punctuation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '__', 'abc'];
 
-	var config1 = ['w', 'v', 'k', 'u'];
-
-	var config2 = ['p'];
-
-	var config3 = ['m', 'd', 'b', 'x'];
-
-	var config4 = ['j', 'g', 'c'];
-
-	var config5 = ['q', 'f'];
-
-	var config6 = ['l'];
-
-	var config7 = ['z', 'y'];
-
 	// bottom Letter Index = 0, 2, 4, 5, 8, 11
 
-	// clear text field button
+
+	var botLetter = ['v', 'p', 'd', 'u', 'c', 'x'];
+	var topLetter = ['q', 'l', 'z']
+	var rightLetter = ['w', 'k', 'f'];
+	var leftLetter = ['m', 'b', 'y'];
+
+	var centerKey = ['j', 'g'];
+
 	$('#clear').click(function() {
 		$('#inputText h1').empty();
 	})
 
 	// display initial keyboard
 	for (var i = 0; i < BUTTON_NUM; i++) {
-		var button = $('<div class="col col-sm-4 button test' + i + '">');
+		var button = $('<div id="button' + (i + 1) + '" class="col col-sm-4 button" >');
 
-		if (i === 0 || i === 3) {
-			button.append('<h3 class="config1">' + lowerCase[i] + '</h3>');
-			if (i === 0) {
-				button.append('<h5 class="config1">' + config1[0] + '</h5>');
-				button.append('<h5>' + config1[1] + '</h5>');
-			}
-			if (i === 3) {
-				button.append('<h5 class="config1">' + config1[2] + '</h5>');
-				button.append('<h5>' + config1[3] + '</h5>');				
-			}
-		} else if (i === 1) {
-			button.append('<h3>' + lowerCase[i] + '</h3>');
-			button.append('<h5>' + config2[0] + '</h5>');				
-			
-
-		} else if (i === 2 || i === 5) {
-			if (i === 2) {
-				button.append('<h5 class="config2">' + config3[0] + '</h5>');				
-				button.append('<h3 class="config2">' + lowerCase[i] + '</h3>');
-				button.append('<h5>' + config3[1] + '</h5>');
-			}
-			if (i === 5) {
-				button.append('<h5 class="config2">' + config3[2] + '</h5>');				
-				button.append('<h3 class="config2">' + lowerCase[i] + '</h3>');
-				button.append('<h5>' + config3[3] + '</h5>');
-			}
-
-		} else if (i === 4) {
-			button.append('<h5 class="config4">' + config4[0] + '</h5>');				
-			button.append('<h3 class="config4">' + lowerCase[i] + '</h3>');
-			button.append('<h5 class="config4">' + config4[1] + '</h5>');
-			button.append('<h5>' + config4[2] + '</h5>');
-
-		} else if (i === 6) {
-			button.append('<h5>' + config5[0] + '</h5>');
-			button.append('<h3 class="config5">' + lowerCase[i] + '</h3>');
-			button.append('<h5 class="config5">' + config5[1] + '</h5>');			
-		} else if (i === 7) {
-			button.append('<h5>' + config6[0] + '</h5>');
-			button.append('<h3>' + lowerCase[i] + '</h3>');
-
-
-	 	} else if (i === 8) {
-			button.append('<h5>' + config7[0] + '</h5>');
-			button.append('<h5 class="config7">' + config7[1] + '</h5>');
-			button.append('<h3 class="config7">' + lowerCase[i] + '</h3>');
-
-	 	} else  {
-			button.append('<h3>' + lowerCase[i] + '</h3>');
-		}
-
-
+		button = displaySideKeys(button, i, botLetter, topLetter, leftLetter, rightLetter, centerKey);
 
 		if (lowerCase[i] === 'CAPS') {
 			button.attr('id', 'toUpCaps');
 		} 
+
 		if (lowerCase[i] === '123') {
 			button.attr('id', 'nums');
 		}
-
 
 		$('#keyboard').append(button);
 		
 	}
 
+
+
+/********************* swipe events display *********************************/ 
 	var textInput = document.getElementById('inputText');
-
-  	// swipe left --> backspace
-  	Hammer(textInput).on('swipeleft', function() {
-		var val = $('#inputText h1');
-		var valLength = val.text().length;
-
-		val.text(val.text().substring(0, valLength - 1));
-  	});
-
-  	// swipe right --> add space
-  	Hammer(textInput).on('swiperight', function() {
-  		var val = $('#inputText h1');
-  		val.text(val.text() + ' ');
-  	})
-
+    
 	// Display string that user transcribes 
 	var currentString = document.getElementById('displayText');
 	var index = 0; //current index in the array of string
@@ -166,17 +95,31 @@ $(function() {
                     'Valium in the economy size',
                     'the facts get in the way'
 			];
-	currentString.innerHTML = '<p>' + strings[index] + '</p>';
+	currentString.innerHTML = '<p>' + strings[index] + '</p>';    
 
+  	// swipe left --> backspace
+  	Hammer(textInput).on('swipeleft', function() {
+		var val = $('#inputText h1');
+		var valLength = val.text().length;
+
+		val.text(val.text().substring(0, valLength - 1));
+  	});
+
+  	// swipe right --> add space
+  	Hammer(textInput).on('swiperight', function() {
+  		var val = $('#inputText h1');
+  		val.text(val.text() + ' ');
+  	})
 
   	// swipe up: clear Keyboard, shows next string in array;
   	var options = {
 		preventDefault: true
 	};
-  	var exitKeyboard = new Hammer(textInput, options);
-  	exitKeyboard.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+    
+  	var submitKeyboard = new Hammer(textInput, options);
+  	submitKeyboard.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
  	
-  	exitKeyboard.on('swipeup', function(ev) {
+  	submitKeyboard.on('swipeup', function(ev) {
 		$('#inputText h1').empty();
 		index++;
 		if (index > strings.length - 1) { // reached end of string array
@@ -184,25 +127,75 @@ $(function() {
 			index = 0;
 		} 
 		currentString.innerHTML = '<p>' + strings[index] + '</p>';
-  	})
+  	})    
+/********************* swipe events ****************************************/
 
-  // 	Hammer(textInput).on('swiperight', function() {
-		// alert('hi');
-  // 	});
+	swipe('button1', 0);
+	swipe('button2', 1);
+	swipe('button3', 2);
+	swipe('button4', 3);
+	swipe('button5', 4);
+	swipe('button6', 5);
+	swipe('button7', 6);
+	swipe('button8', 7);
+	swipe('button9', 8);
+
+	function swipe(id, index) {
+	  	var button = document.getElementById(id);
+
+	  	var options = {
+			preventDefault: true
+		}; 
+		var vertSwipe = new Hammer(button, options);
+		vertSwipe.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+		 	
+
+	  	//swipe down
+		if (index < 6) {
+			vertSwipe.on('swipedown', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+  				console.log(inputVal);
+  				$('#inputText h1').text(inputVal + botLetter[index]);
+  			})
+
+		}
+
+		// swipe up
+		if (index >= 6 && index <= 8) {
+			vertSwipe.on('swipeup', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+  				$('#inputText h1').text(inputVal + topLetter[index - 6]);
+  			})
+		}
 
 
-	// hammertime.on('swipedown', function(ev) {
-	// 	alert('you swiped down!');
-	// })	
+		// swipe right
+		if (index === 0 || index === 4 || index === 3 || index === 6) {
+			Hammer(button).on('swiperight', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+		  		if (index === 4) {
+		  			$('#inputText h1').text(inputVal + centerKey[1]);
+		  		} else {
+			  		$('#inputText h1').text(inputVal + rightLetter[index / 3]);
+		  		}
+			});
+		}
 
-	var buttons = document.getElementsByClassName('button');
+		// swipe left
+		if (index === 2 || index === 4 || index === 5 || index === 8) {
+			Hammer(button).on('swipeleft', function(ev) {
+		  		var inputVal = $('#inputText h1').text();
+		  		if (index === 4) {
+			  		$('#inputText h1').text(inputVal + centerKey[0]);
+		  		} else {
+		  			$('#inputText h1').text(inputVal + leftLetter[Math.floor(index / 3)]);
+				}
+			});
+		}
+	}
 
-	// var testHammer = new Hammer(buttons, options);
-	// testHammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL});
 
-	// testHammer.on('swipedown', function(ev) {
-	// 	alert('fjei;fjieafeja');
-	// })
+/**********************************************************************************/
 
 	// show that a mouse is hovering over a key
 	$('#keyboard').on('mouseenter', '.button', function() {
@@ -215,9 +208,13 @@ $(function() {
 
 	})
 
+
+
 	$('#testBox').mousemove(function(event) {
 		$('#report').text('X Coordinate: ' + event.pageX + ', Y Coordinate: ' + event.pageY);
 	})
+
+
 
 	// when keys are pressed
 	$('#keyboard').on('click', '.button', function() {
@@ -234,8 +231,8 @@ $(function() {
 	    	$('#keyboard').empty();
 	    	changeKeyBoard(lowerCase, 'lowCase');
 	    } else {
-			var textVal = $('#inputText h1').text(); // the current words in the text field
-			var appendVal = $(this).children('h3').text(); // the letter that was just pressed
+			var textVal = $('#inputText h1').text();
+			var appendVal = $(this).children('h3').text();
 			if ($(this).text() === '__') {
 				appendVal = " ";
 			}
@@ -244,12 +241,48 @@ $(function() {
 		
 	});
 
+
+	function displaySideKeys(button, index, botLetter, topLetter, leftLetter, rightLetter, centerKey) {		
+		button.append('<h3 class="letterAlign">' + lowerCase[i] + '</h3>');
+
+		// display right Letters
+		if (index === 0 || index === 4 || index === 3 || index === 6) {
+			
+			if (index === 4) {
+				button.append('<h5 class="letterAlign">' + centerKey[1] + '</h5>');	
+			} else {
+				button.append('<h5 class="letterAlign">' + rightLetter[index / 3] + '</h5>');
+			}
+		}
+
+		// display bottom Letter
+		if (index < 6) {
+			button.append('<h5>' + botLetter[index] + '</h5>');
+		}
+
+		// display left Letter
+		if (index === 2 || index === 4 || index === 5 || index === 8) {
+			if (index === 4) {
+				button.prepend('<h5 class="letterAlign">' + centerKey[0] + '</h5>');	
+			} else {
+				button.prepend('<h5 class="letterAlign">' + leftLetter[Math.floor(index / 3)] + '</h5>');
+			}
+		}
+
+		// display top Letter
+		if (index >= 6 && index <= 8) {
+			button.prepend('<h5>' + topLetter[index - 6] + '</h5>');			
+		}
+		return button;
+	}
+
+
 	// change keyboard depending on the type of keyboard wanted
 	function changeKeyBoard(letterCase, changeCaps) {
 		for (var i = 0; i < BUTTON_NUM; i++) {
-			var button = $('<div class="col col-sm-4 button">');
+			var button = $('<div id="button' + (i + 1) + '" class="col col-sm-4 button">');
 			button.append('<h3>' + letterCase[i] + '</h3>');
-
+				
 			if (letterCase[i] === 'CAPS' || letterCase[i] === 'abc') {
 				if (changeCaps === 'upCase') {
 					button.attr('id', 'toLowCaps');	
@@ -269,25 +302,13 @@ $(function() {
 		}
 	}
 
-	var test1 = document.getElementById('testStuff');
 
-    
-	// var test2 = $('#testStuff');
-	// console.log(test1);
 
-	// var options = {
-	// 	preventDefault: true
-	// };
- // 	var hammertime = new Hammer(test1, options);
- //  	hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
 
- //  	hammertime.on('swipeleft', function() {
- //   		$('#testStuff').text($('#inputText').text());
 
- //  	});
 
- //  	Hammer(test1).on('swipeleft', function() {
- //  		console.log('hi');
- //  	})
+
+
+
+
 })
-

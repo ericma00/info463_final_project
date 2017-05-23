@@ -34,12 +34,11 @@ main {
 /*		text-align: left;
 */}
 
+
 .button {
 	border: solid #9d9d9d 1px;
-/*	background-color: #cce5ff; */
 	height: 78px;
-	background-color: #222223;
-	/*border-radius: 30px;*/
+	background-color: #222223;    
 }
 
 .button{ 
@@ -112,7 +111,7 @@ h5 {
 	display: inline-block;
 }
 
-.config1, .config2, .config4, .config5, .config7 {
+.letterAlign {
 	display: inline-block;
 	width: 25%;
 }
