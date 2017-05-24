@@ -159,6 +159,7 @@ $(function() {
 	console.log(userData); //initial xml doc
 
 /**********************************************************************************/
+    
 
 /********************* XML Functions***************************************/
 	function appendTrial(strings, index) {
@@ -234,6 +235,12 @@ $(function() {
 			}
 			appendEntry(index, appendVal) // append Entry XML node
 			$('#inputText h1').text(textVal += appendVal);
+            
+            // Ensures that the user sees the latest text they inputted
+            var isScrolledToRight = textInput.scrollWidth - textInput.clientWidth <= textInput.scrollLeft + 1;
+            if (!isScrolledToRight) {
+                textInput.scrollLeft = textInput.scrollWidth - textInput.clientWidth;
+            }
 	    }
 	});
 	function createEntryNode(val){
@@ -247,8 +254,14 @@ $(function() {
 			
 			if (index === 4) {
 				button.append('<h5 class="letterAlign">' + centerKey[1] + '</h5>');	
-			} else {
-				button.append('<h5 class="letterAlign">' + rightLetter[index / 3] + '</h5>');
+			} else {/*
+                console.log(rightLetter[index/3]);
+                if (rightLetter[index/3] === "k") {
+                    button.append('<h5 class="letterAlignRightK">' + rightLetter[index / 3] + '</h5>');
+                } else {
+                    button.append('<h5 class="letterAlignRight">' + rightLetter[index / 3] + '</h5>');
+                }*/
+                button.append('<h5 class="letterAlignRight">' + rightLetter[index / 3] + '</h5>');
 			}
 		}
 
@@ -275,7 +288,6 @@ $(function() {
 			button.prepend('<h5>' + botButtonPunc[0] + '</h5>');
 			button.append('<h5 class="letterAlign">' + botButtonPunc[1] + '</h5>');
 		}
-		console.log(index);
 		return button;
 	}
 
