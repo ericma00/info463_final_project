@@ -181,7 +181,7 @@ $(function() {
 	}
 
 	function appendEntry(index, char) {
-		var ticks = new Date().getTime() * 10000 ; // i still dont really know what ticks is, i tried to make it the same as the example xml file
+		var ticks = (new Date().getTime() * 10000) + 621355968000000000 ; // https://stackoverflow.com/questions/7966559/how-to-convert-javascript-date-object-to-ticks
 		var seconds = new Date().getTime() / 1000; //convert ms to seconds
 		var entryElement = userData.createElement("Entry");
 		entryElement.setAttribute("char", char);
