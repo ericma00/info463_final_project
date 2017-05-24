@@ -65,7 +65,7 @@ $(function() {
     
 	// Display string that user transcribes 
 	var currentString = document.getElementById('displayText');
-	var index = 0; //current index in the array of string
+	var globalIndex = 0; //current index in the array of string
 	var strings = [
                     'my watch fell in the water',
                     'prevailing wind from the east',
@@ -113,9 +113,9 @@ $(function() {
                     'Valium in the economy size',
                     'the facts get in the way'
 			];
-	currentString.innerHTML = '<p>' + strings[index] + '</p>'; 
+	currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>'; 
  
-	appendTrial(strings, index); // set initial first trial
+	appendTrial(strings, globalIndex); // set initial first trial
     /***************Swipe gestures on text input******************/
   	// swipe left --> backspace
   	Hammer(textInput).on('swipeleft', function() {
@@ -124,7 +124,7 @@ $(function() {
 		var valLength = val.text().length;
 
 		val.text(val.text().substring(0, valLength - 1));
-		appendEntry(index, appendVal)
+		appendEntry(globalIndex, appendVal)
   	});
 
   	// swipe right --> add space
@@ -132,7 +132,7 @@ $(function() {
 		var appendVal = " " 
   		var val = $('#inputText h1');
   		val.text(val.text() + appendVal);
-		appendEntry(index, appendVal);
+		appendEntry(globalIndex, appendVal);
   	})
 
   	// swipe up: clear Keyboard, shows next string in array;
@@ -147,13 +147,13 @@ $(function() {
 		var textVal = $('#inputText h1').text()
 		$('#inputText h1').empty();
 		appendTranscribed(textVal);
-		index++;
-		if (index > strings.length - 1) { // reached end of string array
+		globalIndex++;
+		if (globalIndex > strings.length - 1) { // reached end of string array
 			alert('test is done!');
-			index = 0;
+			globalIndex = 0;
 		} 
-		currentString.innerHTML = '<p>' + strings[index] + '</p>';
-		appendTrial(strings, index);
+		currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>';
+		appendTrial(strings, globalIndex);
 		console.log(userData);
   	})    
 	console.log(userData); //initial xml doc
@@ -202,7 +202,7 @@ $(function() {
 	function appendTranscribed(transcription) {
 		var transcribedElement = userData.createElement("Transcribed");
 		transcribedElement.textContent = transcription;
-		userData.getElementsByTagName("Trial")[index].appendChild(transcribedElement);
+		userData.getElementsByTagName("Trial")[globalIndex].appendChild(transcribedElement);
 	}
 
 /************************************************************************/	
@@ -240,7 +240,7 @@ $(function() {
 			if ($(this).attr('id') === 'button11') {
 				appendVal = " ";
 			}
-			appendEntry(index, appendVal) // append Entry XML node
+			appendEntry(globalIndex, appendVal) // append Entry XML node
 			$('#inputText h1').text(textVal += appendVal);
             scrollRight();
 	    }
@@ -397,6 +397,7 @@ $(function() {
 			vertSwipe.on('swipedown', function(ev) {
 		  		var inputVal = $('#inputText h1').text();
   				$('#inputText h1').text(inputVal + botLetter[index]);
+				appendEntry(globalIndex, botLetter[index]); 
                 scrollRight();
   			})
             
@@ -409,8 +410,10 @@ $(function() {
 		  		var inputVal = $('#inputText h1').text();
 		  		if (index === 10) {
   					$('#inputText h1').text(inputVal + botButtonPunc[0]);
+					appendEntry(globalIndex, botButtonPunc[0]); 
 		  		} else {
   					$('#inputText h1').text(inputVal + topLetter[index - 6]);
+					  appendEntry(globalIndex, topLetter[index - 6]); 
   				}
                 scrollRight();
   			})            
@@ -423,10 +426,13 @@ $(function() {
 		  		var inputVal = $('#inputText h1').text();
 		  		if (index === 4) {
 		  			$('#inputText h1').text(inputVal + centerKey[1]);
+					appendEntry(globalIndex, centerKey[1]); 
 		  		} else if (index === 10) {
 		  			$('#inputText h1').text(inputVal + botButtonPunc[1]);
+					appendEntry(globalIndex, botButtonPunc[1]); 
 		  		} else {
 			  		$('#inputText h1').text(inputVal + rightLetter[index / 3]);
+					appendEntry(globalIndex, rightLetter[index / 3]); 
 		  		}
                 scrollRight();
 			});
@@ -438,8 +444,10 @@ $(function() {
 		  		var inputVal = $('#inputText h1').text();
 		  		if (index === 4) {
 			  		$('#inputText h1').text(inputVal + centerKey[0]);
+					appendEntry(globalIndex, centerKey[0]); 
 		  		} else {
 		  			$('#inputText h1').text(inputVal + leftLetter[Math.floor(index / 3)]);
+					appendEntry(globalIndex, leftLetter[Math.floor(index / 3)]); 
 				}
                 scrollRight();
 			});
