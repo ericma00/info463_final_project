@@ -119,10 +119,12 @@ $(function() {
     /***************Swipe gestures on text input******************/
   	// swipe left --> backspace
   	Hammer(textInput).on('swipeleft', function() {
+		var appendVal = "&#x8;" //backspace character 
 		var val = $('#inputText h1');
 		var valLength = val.text().length;
 
 		val.text(val.text().substring(0, valLength - 1));
+		appendEntry(index, appendVal)
   	});
 
   	// swipe right --> add space
@@ -225,10 +227,10 @@ $(function() {
 	    } else {
 			var textVal = $('#inputText h1').text(); //current letters in text input
 			var appendVal = $(this).children('h3').text(); //letter just inputted 
-			appendEntry(index, appendVal) // append Entry XML node
 			if ($(this).attr('id') === 'button11') {
 				appendVal = " ";
 			}
+			appendEntry(index, appendVal) // append Entry XML node
 			$('#inputText h1').text(textVal += appendVal);
 	    }
 	});
