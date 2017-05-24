@@ -130,10 +130,11 @@ $(function() {
 
   	// swipe right --> add space
   	Hammer(textInput).on('swiperight', function() {
-		var appendVal = " " 
+		var appendVal = "\xa0";
   		var val = $('#inputText h1');
   		val.text(val.text() + appendVal);
 		appendEntry(globalIndex, appendVal);
+		scrollRight();
   	})
 
   	// swipe up: clear Keyboard, shows next string in array;
@@ -268,7 +269,7 @@ $(function() {
 			var textVal = $('#inputText h1').text(); //current letters in text input
 			var appendVal = $(this).children('h3').text(); //letter just inputted 
 			if ($(this).attr('id') === 'button11') {
-				appendVal = " ";
+				appendVal = "\xa0";
 			}
 			appendEntry(globalIndex, appendVal) // append Entry XML node
 			$('#inputText h1').text(textVal += appendVal);
