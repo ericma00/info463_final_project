@@ -115,7 +115,7 @@ $(function() {
 			];
 	currentString.innerHTML = '<p>' + strings[index] + '</p>'; 
  
-	appendTrial(strings, index); // set initial trial
+	appendTrial(strings, index); // set initial first trial
     /***************Swipe gestures on text input******************/
   	// swipe left --> backspace
   	Hammer(textInput).on('swipeleft', function() {
@@ -129,8 +129,10 @@ $(function() {
 
   	// swipe right --> add space
   	Hammer(textInput).on('swiperight', function() {
+		var appendVal = " " 
   		var val = $('#inputText h1');
-  		val.text(val.text() + ' ');
+  		val.text(val.text() + appendVal);
+		appendEntry(index, appendVal);
   	})
 
   	// swipe up: clear Keyboard, shows next string in array;
@@ -179,8 +181,8 @@ $(function() {
 	}
 
 	function appendEntry(index, char) {
-		var ticks = (new Date().getTime() * 10000) + 621355968000000000; 
-		var seconds = ticks / 1000;
+		var ticks = new Date().getTime() * 10000 ; // i still dont really know what ticks is, i tried to make it the same as the example xml file
+		var seconds = new Date().getTime() / 1000; //convert ms to seconds
 		var entryElement = userData.createElement("Entry");
 		entryElement.setAttribute("char", char);
 		entryElement.setAttribute("value", char.charCodeAt(0));
