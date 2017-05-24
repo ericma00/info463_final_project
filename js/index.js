@@ -177,7 +177,7 @@ $(function() {
 	}
 
 	function appendEntry(index, char) {
-		var ticks = new Date().getTime(); 
+		var ticks = (new Date().getTime() * 10000) + 621355968000000000; 
 		var seconds = ticks / 1000;
 		var entryElement = userData.createElement("Entry");
 		entryElement.setAttribute("char", char);
