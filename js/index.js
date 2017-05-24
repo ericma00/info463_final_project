@@ -2,9 +2,6 @@
 $(function() {
 	var userData = document.implementation.createDocument(null, "TextTest");
 
-	var ticks = new Date().getTime(); 
-	var seconds = ticks / 1000;
-
 	var BUTTON_NUM = 12;
 
 	var lowerCase =   ['n', 'a', 'h', 's', 'e', 'i', 'r', 'o', 't', 'CAPS', '__', '123'];
@@ -118,27 +115,7 @@ $(function() {
 			];
 	currentString.innerHTML = '<p>' + strings[index] + '</p>'; 
  
-	appendTrial(strings, index);
-
-    /*********************Creates XML Nodes***************************************/
-	function appendTrial(strings, index) {
-		var trialElement = userData.createElement("Trial");		
-		trialElement.setAttribute("number", index + 1); // trial number is not based 0, so add 1
-		if (index < 5) { //first 5 of 45 are just practice 
-			trialElement.setAttribute("testing", "false");
-		} else { 
-			trialElement.setAttribute("testing", "true");		
-		}
-		trialElement.setAttribute("entries", strings[index].length);
-		userData.getElementsByTagName("TextTest")[0].appendChild(trialElement);	
-		appendPresented(strings, index);	
-	}
-
-	function appendPresented(strings, index) {
-		var presentedElement = userData.createElement("Presented");
-		presentedElement.textContent = strings[index];
-		userData.getElementsByTagName("Trial")[index].appendChild(presentedElement);   		
-	}
+	appendTrial(strings, index); // set initial trial
     /***************Swipe gestures on text input******************/
   	// swipe left --> backspace
   	Hammer(textInput).on('swipeleft', function() {
@@ -163,19 +140,60 @@ $(function() {
   	submitKeyboard.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
  	
   	submitKeyboard.on('swipeup', function(ev) {
+		var textVal = $('#inputText h1').text()
 		$('#inputText h1').empty();
+		appendTranscribed(textVal);
 		index++;
 		if (index > strings.length - 1) { // reached end of string array
 			alert('test is done!');
 			index = 0;
 		} 
 		currentString.innerHTML = '<p>' + strings[index] + '</p>';
-			appendTrial(strings, index);
-			console.log(userData);
+		appendTrial(strings, index);
+		console.log(userData);
   	})    
 	console.log(userData); //initial xml doc
 
 /**********************************************************************************/
+
+/********************* XML Functions***************************************/
+	function appendTrial(strings, index) {
+		var trialElement = userData.createElement("Trial");		
+		trialElement.setAttribute("number", index + 1); // trial number is not based 0, so add 1
+		if (index < 5) { //first 5 of 45 are just practice 
+			trialElement.setAttribute("testing", "false");
+		} else { 
+			trialElement.setAttribute("testing", "true");		
+		}
+		trialElement.setAttribute("entries", strings[index].length);
+		userData.getElementsByTagName("TextTest")[0].appendChild(trialElement);	
+		appendPresented(strings, index);	
+	}
+
+	function appendPresented(strings, index) {
+		var presentedElement = userData.createElement("Presented");
+		presentedElement.textContent = strings[index];
+		userData.getElementsByTagName("Trial")[index].appendChild(presentedElement);   		
+	}
+
+	function appendEntry(index, char) {
+		var ticks = new Date().getTime(); 
+		var seconds = ticks / 1000;
+		var entryElement = userData.createElement("Entry");
+		entryElement.setAttribute("char", char);
+		entryElement.setAttribute("value", char.charCodeAt(0));
+		entryElement.setAttribute("ticks", ticks);		
+		entryElement.setAttribute("seconds", seconds);
+		userData.getElementsByTagName("Trial")[index].appendChild(entryElement);
+	}
+
+	function appendTranscribed(transcription) {
+		var transcribedElement = userData.createElement("Transcribed");
+		transcribedElement.textContent = transcription;
+		userData.getElementsByTagName("Trial")[index].appendChild(transcribedElement);
+	}
+
+/************************************************************************/	
 
 	// show that a mouse is hovering over a key
 	$('#keyboard').on('mouseenter', '.button', function() {
@@ -207,8 +225,7 @@ $(function() {
 	    } else {
 			var textVal = $('#inputText h1').text(); //current letters in text input
 			var appendVal = $(this).children('h3').text(); //letter just inputted 
-
-			console.log(appendVal.charCodeAt(0)); //ascii value of letter just inputted 
+			appendEntry(index, appendVal) // append Entry XML node
 			if ($(this).attr('id') === 'button11') {
 				appendVal = " ";
 			}
