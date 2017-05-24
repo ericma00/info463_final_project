@@ -68,7 +68,7 @@ $(function() {
 	var currentString = document.getElementById('displayText');
 	var globalIndex = 0; //current index in the array of string
 	var strings = [
-                    'my watch fell in the water',
+                    'my watch fell in the water',/*
                     'prevailing wind from the east',
                     'never too rich and never too thin',
                     'breathing is difficult',
@@ -112,7 +112,7 @@ $(function() {
                     'all work and no play',
                     'hair gel is very greasy',
                     'Valium in the economy size',
-                    'the facts get in the way'
+                    'the facts get in the way'*/
 			];
 	currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>'; 
  
@@ -152,11 +152,17 @@ $(function() {
 		if (globalIndex > strings.length - 1) { // reached end of string array
 			alert('test is done!');
 			globalIndex = 0;
-			console.log('userData = ' + userData);
-			// create button
+
+			 console.log('userData = ' + userData);
+			//create button
 			downloadButton = $('<button type="button" class="btn btn-primary">Download Data </button>');
 			$('#transcribeText').append(downloadButton);
-			console.log(downloadButton);
+			console.log(downloadButton[0]);
+
+
+
+			// assuming var `svg` for your SVG node
+			
 		} 
 		currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>';
 		appendTrial(strings, globalIndex);
@@ -176,7 +182,11 @@ $(function() {
 		a.dispatchEvent(ev);
 
 		downloadButton.attr('disabled', 'disabled'); // disable the button after click
-	})	
+
+
+
+
+	})
 
 /**********************************************************************************/
     
