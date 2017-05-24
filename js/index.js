@@ -1,8 +1,8 @@
 'use strict'
 $(function() {
+	var userData = document.implementation.createDocument(null, "TextTest");
+
 	var BUTTON_NUM = 12;
-
-
 
 	var lowerCase =   ['n', 'a', 'h', 's', 'e', 'i', 'r', 'o', 't', 'CAPS', '__', '123'];
 	var upperCase =   ['N', 'A', 'H', 'S',' E', 'I', 'R', 'O', 'T', 'CAPS', '__', '123'];
@@ -60,8 +60,6 @@ $(function() {
 		
 	}
 
-
-
 /********************* swipe events display *********************************/ 
 	var textInput = document.getElementById('inputText');
     
@@ -115,20 +113,26 @@ $(function() {
                     'Valium in the economy size',
                     'the facts get in the way'
 			];
-	currentString.innerHTML = '<p>' + strings[index] + '</p>';    
-
+	currentString.innerHTML = '<p>' + strings[index] + '</p>'; 
+ 
+	appendTrial(strings, index); // set initial first trial
+    /***************Swipe gestures on text input******************/
   	// swipe left --> backspace
   	Hammer(textInput).on('swipeleft', function() {
+		var appendVal = "&#x8;" //backspace character 
 		var val = $('#inputText h1');
 		var valLength = val.text().length;
 
 		val.text(val.text().substring(0, valLength - 1));
+		appendEntry(index, appendVal)
   	});
 
   	// swipe right --> add space
   	Hammer(textInput).on('swiperight', function() {
+		var appendVal = " " 
   		var val = $('#inputText h1');
-  		val.text(val.text() + ' ');
+  		val.text(val.text() + appendVal);
+		appendEntry(index, appendVal);
   	})
 
   	// swipe up: clear Keyboard, shows next string in array;
@@ -140,36 +144,74 @@ $(function() {
   	submitKeyboard.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
  	
   	submitKeyboard.on('swipeup', function(ev) {
+		var textVal = $('#inputText h1').text()
 		$('#inputText h1').empty();
+		appendTranscribed(textVal);
 		index++;
 		if (index > strings.length - 1) { // reached end of string array
 			alert('test is done!');
 			index = 0;
 		} 
 		currentString.innerHTML = '<p>' + strings[index] + '</p>';
+		appendTrial(strings, index);
+		console.log(userData);
   	})    
-
+	console.log(userData); //initial xml doc
 
 /**********************************************************************************/
 
-	// // show that a mouse is hovering over a key
-	// $('#keyboard').on('mouseenter', '.button', function() {
-	// 	$(this).css('background-color', '#DCDCDC');
-	// })
+/********************* XML Functions***************************************/
+	function appendTrial(strings, index) {
+		var trialElement = userData.createElement("Trial");		
+		trialElement.setAttribute("number", index + 1); // trial number is not based 0, so add 1
+		if (index < 5) { //first 5 of 45 are just practice 
+			trialElement.setAttribute("testing", "false");
+		} else { 
+			trialElement.setAttribute("testing", "true");		
+		}
+		trialElement.setAttribute("entries", strings[index].length);
+		userData.getElementsByTagName("TextTest")[0].appendChild(trialElement);	
+		appendPresented(strings, index);	
+	}
 
-	// // shows that a mouse is not hovering the key
-	// $('#keyboard').on('mouseleave', '.button', function() {
-	// 	$(this).css('background-color', 'white');
+	function appendPresented(strings, index) {
+		var presentedElement = userData.createElement("Presented");
+		presentedElement.textContent = strings[index];
+		userData.getElementsByTagName("Trial")[index].appendChild(presentedElement);   		
+	}
 
-	// })
+	function appendEntry(index, char) {
+		var ticks = (new Date().getTime() * 10000) + 621355968000000000 ; // https://stackoverflow.com/questions/7966559/how-to-convert-javascript-date-object-to-ticks
+		var seconds = new Date().getTime() / 1000; //convert ms to seconds
+		var entryElement = userData.createElement("Entry");
+		entryElement.setAttribute("char", char);
+		entryElement.setAttribute("value", char.charCodeAt(0));
+		entryElement.setAttribute("ticks", ticks);		
+		entryElement.setAttribute("seconds", seconds);
+		userData.getElementsByTagName("Trial")[index].appendChild(entryElement);
+	}
 
+	function appendTranscribed(transcription) {
+		var transcribedElement = userData.createElement("Transcribed");
+		transcribedElement.textContent = transcription;
+		userData.getElementsByTagName("Trial")[index].appendChild(transcribedElement);
+	}
 
+/************************************************************************/	
+
+	// show that a mouse is hovering over a key
+	$('#keyboard').on('mouseenter', '.button', function() {
+		$(this).css('background-color', '#000000');
+	})
+
+	// shows that a mouse is not hovering the key
+	$('#keyboard').on('mouseleave', '.button', function() {
+		$(this).css('background-color', '#222223');
+	})
 
 	$('#testBox').mousemove(function(event) {
 		$('#report').text('X Coordinate: ' + event.pageX + ', Y Coordinate: ' + event.pageY);
 	})
-
-
 
 	// when keys are pressed
 	$('#keyboard').on('click', '.button', function() {
@@ -185,16 +227,18 @@ $(function() {
 	    	$('#keyboard').empty();
 	    	changeKeyBoard(lowerCase, 'lowCase');
 	    } else {
-			var textVal = $('#inputText h1').text();
-			var appendVal = $(this).children('h3').text();
+			var textVal = $('#inputText h1').text(); //current letters in text input
+			var appendVal = $(this).children('h3').text(); //letter just inputted 
 			if ($(this).attr('id') === 'button11') {
 				appendVal = " ";
 			}
+			appendEntry(index, appendVal) // append Entry XML node
 			$('#inputText h1').text(textVal += appendVal);
 	    }
-		
 	});
+	function createEntryNode(val){
 
+	}
 
 	function displaySideKeys(button, index, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc) {		
 
@@ -228,7 +272,6 @@ $(function() {
 		}
 
 		if (index === 10) {
-			console.log('hi');
 			button.prepend('<h5>' + botButtonPunc[0] + '</h5>');
 			button.append('<h5 class="letterAlign">' + botButtonPunc[1] + '</h5>');
 		}
@@ -251,7 +294,6 @@ $(function() {
 			} else {
 				displaySideKeys(button, i, puncbotLetter, punctopLetter, puncleftLetter, puncrightLetter, punccenterKey, botButtonPunc2)				
 			}
-
 
 			if (letterCase[i] === 'CAPS' || letterCase[i] === 'abc') {
 				if (changeCaps === 'upCase') {
