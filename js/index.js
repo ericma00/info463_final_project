@@ -160,7 +160,14 @@ $(function() {
 
 /**********************************************************************************/
     
-
+    // Ensures that the text input field is always to the right
+    function scrollRight() {
+        var isScrolledToRight = textInput.scrollWidth - textInput.clientWidth <= textInput.scrollLeft + 1;
+        if (!isScrolledToRight) {
+            textInput.scrollLeft = textInput.scrollWidth - textInput.clientWidth;
+        }         
+    }
+    
 /********************* XML Functions***************************************/
 	function appendTrial(strings, index) {
 		var trialElement = userData.createElement("Trial");		
@@ -235,12 +242,7 @@ $(function() {
 			}
 			appendEntry(index, appendVal) // append Entry XML node
 			$('#inputText h1').text(textVal += appendVal);
-            
-            // Ensures that the user sees the latest text they inputted
-            var isScrolledToRight = textInput.scrollWidth - textInput.clientWidth <= textInput.scrollLeft + 1;
-            if (!isScrolledToRight) {
-                textInput.scrollLeft = textInput.scrollWidth - textInput.clientWidth;
-            }
+            scrollRight();
 	    }
 	});
 	function createEntryNode(val){
@@ -367,9 +369,6 @@ $(function() {
 
 
 
-
-
-
 /********************* swipe events ****************************************/
 
 	swipe('button1', 0, botLetter, topLetter, leftLetter, rightLetter, centerKey, botButtonPunc);
@@ -397,10 +396,10 @@ $(function() {
 		if (index < 6) {
 			vertSwipe.on('swipedown', function(ev) {
 		  		var inputVal = $('#inputText h1').text();
-  				console.log(inputVal);
   				$('#inputText h1').text(inputVal + botLetter[index]);
+                scrollRight();
   			})
-
+            
 		}
 
 		// swipe up
@@ -413,7 +412,8 @@ $(function() {
 		  		} else {
   					$('#inputText h1').text(inputVal + topLetter[index - 6]);
   				}
-  			})
+                scrollRight();
+  			})            
 		}
 
 
@@ -427,7 +427,8 @@ $(function() {
 		  			$('#inputText h1').text(inputVal + botButtonPunc[1]);
 		  		} else {
 			  		$('#inputText h1').text(inputVal + rightLetter[index / 3]);
-		  		} 
+		  		}
+                scrollRight();
 			});
 		}
 
@@ -440,9 +441,8 @@ $(function() {
 		  		} else {
 		  			$('#inputText h1').text(inputVal + leftLetter[Math.floor(index / 3)]);
 				}
+                scrollRight();
 			});
-		}
-
+		}       
 	}
-
 })
