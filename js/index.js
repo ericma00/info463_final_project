@@ -283,16 +283,17 @@ $(function() {
 
 		// display right Letters
 		if (index === 0 || index === 4 || index === 3 || index === 6) {
-			
+			if (index === 0 || index === 3 || index === 6) {
+				console.log(index);
+				console.log(button[0]);
+				button.children('h3').addClass('letterConfig1');
+			}
+			if (index === 6) {
+				button.children('h3').css('margin-top', 0);
+			}
 			if (index === 4) {
 				button.append('<h5 class="letterAlign">' + centerKey[1] + '</h5>');	
-			} else {/*
-                console.log(rightLetter[index/3]);
-                if (rightLetter[index/3] === "k") {
-                    button.append('<h5 class="letterAlignRightK">' + rightLetter[index / 3] + '</h5>');
-                } else {
-                    button.append('<h5 class="letterAlignRight">' + rightLetter[index / 3] + '</h5>');
-                }*/
+			} else {
                 button.append('<h5 class="letterAlignRight">' + rightLetter[index / 3] + '</h5>');
 			}
 		}
@@ -304,23 +305,46 @@ $(function() {
 
 		// display left Letter
 		if (index === 2 || index === 4 || index === 5 || index === 8) {
+			if (index === 2 || index === 5 || index === 8) {
+				button.children('h3').addClass('letterConfig2');
+			}
+			if (index === 8 ){
+				button.children('h3').css('margin-top', 0);
+			}
 			if (index === 4) {
 				button.prepend('<h5 class="letterAlign">' + centerKey[0] + '</h5>');	
 			} else {
-				button.prepend('<h5 class="letterAlign">' + leftLetter[Math.floor(index / 3)] + '</h5>');
+				button.prepend('<h5 class="letterAlignLeft">' + leftLetter[Math.floor(index / 3)] + '</h5>');
 			}
 		}
 
 		// display top Letter
-		if (index >= 6 && index <= 8) {
-			button.prepend('<h5>' + topLetter[index - 6] + '</h5>');			
+		if (index >= 6 && index <= 8 || index === 10) {
+			if (index === 10) {
+				button.prepend('<h5>' + botButtonPunc[0] + '</h5>');
+				button.children('h5').css('margin-top', '1em');
+				button.children('h5').css('margin-bottom', 0);
+			} else {
+				button.prepend('<h5>' + topLetter[index - 6] + '</h5>');
+				button.children('h5').css('margin-top', '1em');
+				button.children('h5').css('margin-bottom', 0);	
+				button.children('h3').css('margin-top', 0);	
+			}	
 		}
 
 		if (index === 10) {
-			button.prepend('<h5>' + botButtonPunc[0] + '</h5>');
-			button.append('<h5 class="letterAlign">' + botButtonPunc[1] + '</h5>');
+			button.children('h3').addClass('letterConfig1');
+			button.children('h3').css('margin-top', 0);
+			button.append('<h5 class="letterAlignRight">' + botButtonPunc[1] + '</h5>');
+		}
+
+		if (index === 4) {
+			button.children('.letterAlign').css('width', '30%');
+			
 		}
 		return button;
+
+
 	}
 
 

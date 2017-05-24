@@ -57,79 +57,60 @@ main {
 	margin: 100px;
 }
 
-#testStuff{
-	background-color: white;
-	font-size: 50pt;
-	width: 500px;
-	height: 500px;
-}
 
 h3 {
 	margin-bottom: 0;
 	margin-top: 0;
+	padding-top: 0;
 
 }
 
 h5 {
-	margin: 0;
+	margin-top: 0;
 }
 
-#test1, #test2, #test3 {
-	width: 25%;
+.letterAlign, .letterAlignRight, .letterAlignLeft {
 	display: inline-block;
 }
 
-#test4 {
-		width: 100%;
-}
-
-
-
-#test5, #test6 {
-	display: inline-block;
-}
-
-#test5 {
-	display: center;
-}
-
-
-
-#test8, #test9 {
-	display: inline-block;
-}
-
-
-
-#test12, #test13 {
-	display: inline-block;
-}
-
-
-#test15, #test16 {
-	width: 30%;
-	display: inline-block;
-}
-
-.letterAlign {
-	display: inline-block;
-	width: 25%;
-    padding-top: 20px;
+/*config 1 */
+.letterConfig1 {
+	padding-right: 3px;
+	width: 50%;
+	text-align: right;
 }
 
 .letterAlignRight {
-	display: inline-block;   
-    float: right;
-}
-/*
-.letterAlignRightK {
-	display: inline-block;
 	width: 25%;
-    padding-top: 12px;
-    float: right;
+	padding-left: 0.5em;
+	margin-bottom: 0.5em;
+}
+	
+
+/* config2*/
+.letterConfig2 {
+	width: 50%;
+	text-align: left;
+	padding-left: 5px;
 }
 
-.letterAlignRightW {
-	display: inline-block;
+.letterAlignLeft {
 	width: 25%;
-}*/
+	margin-bottom: 0.5em;
+	padding-right: 0.5em;
+}
+
+.letterAlign {
+	margin-top: 2rem;
+}
+
+#test5 {
+	width: 50%;
+	text-align: right;
+	margin-bottom: 0.5rem;
+}
+
+#test6 {
+	width: 25%;
+	text-align: ;
+}
