@@ -1,6 +1,7 @@
 'use strict'
 $(function() {
 	var userData = document.implementation.createDocument(null, "TextTest");
+	var downloadButton;
 
 	var BUTTON_NUM = 12;
 
@@ -151,12 +152,31 @@ $(function() {
 		if (globalIndex > strings.length - 1) { // reached end of string array
 			alert('test is done!');
 			globalIndex = 0;
+			console.log('userData = ' + userData);
+			// create button
+			downloadButton = $('<button type="button" class="btn btn-primary">Download Data </button>');
+			$('#transcribeText').append(downloadButton);
+			console.log(downloadButton);
 		} 
 		currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>';
 		appendTrial(strings, globalIndex);
 		console.log(userData);
   	})    
 	console.log(userData); //initial xml doc
+
+/************************ download button events ********************/ 
+	$('#transcribeText').on('click', downloadButton, function() {
+		var a = document.createElement('a'), xml, ev;
+		a.download = 'Test_Result.xml'; // file name
+		xml = (new XMLSerializer()).serializeToString(userData); // convert node to xml string
+		a.href = 'data:application/octet-stream;base64,' + btoa(xml); // create data uri
+		// <a> constructed, simulate mouse click on it
+		ev = document.createEvent("MouseEvents");
+		ev.initMouseEvent("click", true, false, self, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(ev);
+
+		downloadButton.attr('disabled', 'disabled'); // disable the button after click
+	})	
 
 /**********************************************************************************/
     
