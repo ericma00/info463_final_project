@@ -71,7 +71,7 @@ $(function() {
 	var globalIndex = 0; //current index in the array of string
 	var strings = [
                     'my watch fell in the water',
-                    'prevailing wind from the east'/*,
+                    'prevailing wind from the east',
                     'never too rich and never too thin',
                     'breathing is difficult',
                     'I can see the rings on Saturn',
@@ -114,7 +114,7 @@ $(function() {
                     'all work and no play',
                     'hair gel is very greasy',
                     'Valium in the economy size',
-                    'the facts get in the way'*/
+                    'the facts get in the way'
 			];
 	currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>'; 
  
