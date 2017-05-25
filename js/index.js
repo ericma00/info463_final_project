@@ -1,7 +1,8 @@
 'use strict'
 $(function() {
 	var userData = document.implementation.createDocument(null, "TextTest");
-
+    var entriesCount = 0;
+    
 	var downloadButton;
 
 	var BUTTON_NUM = 12;
@@ -126,6 +127,7 @@ $(function() {
 		var valLength = val.text().length;
 
 		val.text(val.text().substring(0, valLength - 1));
+        entriesCount++;
 		appendEntry(globalIndex, '&#x8;');
   	});
 
@@ -134,6 +136,7 @@ $(function() {
 		var appendVal = "\xa0";
   		var val = $('#inputText h1');
   		val.text(val.text() + appendVal);
+        entriesCount++;
 		appendEntry(globalIndex, " ");
 		scrollRight();
   	})
@@ -147,6 +150,7 @@ $(function() {
   	submitKeyboard.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
  	
   	submitKeyboard.on('swipeup', function(ev) {
+        entriesCount = 0;
 		var textVal = $('#inputText h1').text()
 		$('#inputText h1').empty();
 		appendTranscribed(textVal);
@@ -257,7 +261,7 @@ $(function() {
 		} else { 
 			trialElement.setAttribute("testing", "true");		
 		}
-		trialElement.setAttribute("entries", strings[index].length);
+		trialElement.setAttribute("entries", entriesCount);
 		userData.getElementsByTagName("TextTest")[0].appendChild(trialElement);	
 		appendPresented(strings, index);	
 	}
@@ -284,6 +288,7 @@ $(function() {
 		entryElement.setAttribute("ticks", ticks);		
 		entryElement.setAttribute("seconds", seconds);
 		userData.getElementsByTagName("Trial")[index].appendChild(entryElement);
+		userData.getElementsByTagName("Trial")[index].setAttribute("entries", entriesCount);        
 	}
 
 	function appendTranscribed(transcription) {
@@ -322,6 +327,7 @@ $(function() {
 	    	$('#keyboard').empty();
 	    	changeKeyBoard(lowerCase, 'lowCase');
 	    } else {
+            entriesCount++;
 			var textVal = $('#inputText h1').text(); //current letters in text input
 			var appendVal = $(this).children('h3').text(); //letter just inputted 
 			if ($(this).attr('id') === 'button11') {
@@ -510,6 +516,7 @@ $(function() {
 			vertSwipe.on('swipedown', function(ev) {
 		  		var inputVal = $('#inputText h1').text();
   				$('#inputText h1').text(inputVal + botLetter[index]);
+                entriesCount++;
 				appendEntry(globalIndex, botLetter[index]); 
                 scrollRight();
   			})
@@ -520,6 +527,7 @@ $(function() {
 		if (index >= 6 && index <= 8 || index === 10) {
 
 			vertSwipe.on('swipeup', function(ev) {
+                entriesCount++;
 		  		var inputVal = $('#inputText h1').text();
 		  		if (index === 10) {
   					$('#inputText h1').text(inputVal + botButtonPunc[0]);
@@ -537,6 +545,7 @@ $(function() {
 		if (index === 0 || index === 4 || index === 3 || index === 6 || index === 10) {
 			Hammer(button).on('swiperight', function(ev) {
 		  		var inputVal = $('#inputText h1').text();
+                entriesCount++;
 		  		if (index === 4) {
 		  			$('#inputText h1').text(inputVal + centerKey[1]);
 					appendEntry(globalIndex, centerKey[1]); 
@@ -554,6 +563,7 @@ $(function() {
 		// swipe left
 		if (index === 2 || index === 4 || index === 5 || index === 8) {
 			Hammer(button).on('swipeleft', function(ev) {
+                entriesCount++;
 		  		var inputVal = $('#inputText h1').text();
 		  		if (index === 4) {
 			  		$('#inputText h1').text(inputVal + centerKey[0]);
