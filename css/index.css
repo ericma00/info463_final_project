@@ -12,10 +12,10 @@ main {
 	height: 390px;
 	border: solid black 1px;
 	background-color: #222223; 
-	-webkit-transform:scale(0.8);
+	/*-webkit-transform:scale(0.8);
 	-moz-transform:scale(0.8);
 	-ms-transform:scale(0.8);
-	transform:scale(0.8);
+	transform:scale(0.8);*/
 }
 
 h1 {

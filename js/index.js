@@ -71,7 +71,7 @@ $(function() {
 	var globalIndex = 0; //current index in the array of string
 	var strings = [
                     'my watch fell in the water',
-                    'prevailing wind from the east'/*,
+                    'prevailing wind from the east',
                     'never too rich and never too thin',
                     'breathing is difficult',
                     'I can see the rings on Saturn',
@@ -114,7 +114,7 @@ $(function() {
                     'all work and no play',
                     'hair gel is very greasy',
                     'Valium in the economy size',
-                    'the facts get in the way'*/
+                    'the facts get in the way'
 			];
 	currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>'; 
  
@@ -230,7 +230,7 @@ $(function() {
 	$('#transcribeText').on('click', downloadButton, function() {
 		var a = document.createElement('a'), xml, ev;
 		a.download = 'Test_Result.xml'; // file name
-		xml = (new XMLSerializer()).serializeToString(userData); // convert node to xml string
+		xml = (new XMLSerializer()).serializeToString(userData).replace(/&amp;#x8;/gi, "&#x8;"); // convert node to xml string
 		a.href = 'data:application/octet-stream;base64,' + btoa(xml); // create data uri
 		// <a> constructed, simulate mouse click on it
 		ev = document.createEvent("MouseEvents");
