@@ -1,6 +1,7 @@
 'use strict'
 $(function() {
 	var userData = document.implementation.createDocument(null, "TextTest");
+
 	var downloadButton;
 
 	var BUTTON_NUM = 12;
@@ -169,7 +170,55 @@ $(function() {
 		console.log(userData);
   	})    
 	console.log(userData); //initial xml doc
+    var rootElement = userData.documentElement; //grabs the <TextTest node>
+    
+    rootElement.setAttribute("version", "2.7.2");
+    rootElement.setAttribute("trials", strings.length); 
+    rootElement.setAttribute("ticks", (new Date().getTime() * 10000) + 621355968000000000);  
+    rootElement.setAttribute("seconds", new Date().getTime() / 1000);
+    
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var date = new Date();
+    var currentDate = months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() + ' ' + date.getHours()  + ':' + date.getMinutes() + ':' + date.getSeconds();
+    currentDate = formatDate(currentDate);
+    console.log(currentDate);
+    function formatDate(date) {
+        var d = new Date(date);
+        var hh = d.getHours();
+        var m = d.getMinutes();
+        var s = d.getSeconds();
+        var dd = "AM";
+        var h = hh;
+        if (h >= 12) {
+            h = hh - 12;
+            dd = "PM";
+        }
+        if (h == 0) {
+            h = 12;
+        }
+        m = m < 10 ? "0" + m : m;
 
+        s = s < 10 ? "0" + s : s;
+
+        /* if you want 2 digit hours:
+        h = h<10?"0"+h:h; */
+
+        var pattern = new RegExp("0?" + hh + ":" + m + ":" + s);
+
+        var replacement = h + ":" + m;
+        /* if you want to add seconds
+        replacement += ":"+s;  */
+        replacement += " " + dd;
+
+        return date.replace(pattern, replacement);
+    }    
+    
+        
+    var currentDate = days[date.getDay()] + ', ' + currentDate;
+    rootElement.setAttribute("date", currentDate);
+	console.log(userData);
+    
 /************************ download button events ********************/ 
 	$('#transcribeText').on('click', downloadButton, function() {
 		var a = document.createElement('a'), xml, ev;
