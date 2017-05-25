@@ -326,9 +326,11 @@ $(function() {
 			var appendVal = $(this).children('h3').text(); //letter just inputted 
 			if ($(this).attr('id') === 'button11') {
 				appendVal = "\xa0";
-			}
-			appendEntry(globalIndex, appendVal) // append Entry XML node
-			$('#inputText h1').text(textVal += appendVal);
+                appendEntry(globalIndex, " "); // logging should read a " " instead of the non breaking space
+			} else {
+                appendEntry(globalIndex, appendVal) // append Entry XML node
+            }
+            $('#inputText h1').text(textVal += appendVal);            
             scrollRight();
 	    }
 	});
