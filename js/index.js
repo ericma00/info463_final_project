@@ -68,8 +68,8 @@ $(function() {
 	var currentString = document.getElementById('displayText');
 	var globalIndex = 0; //current index in the array of string
 	var strings = [
-                    'my watch fell in the water',/*
-                    'prevailing wind from the east',
+                    'my watch fell in the water',
+                    'prevailing wind from the east'/*,
                     'never too rich and never too thin',
                     'breathing is difficult',
                     'I can see the rings on Saturn',
@@ -152,7 +152,6 @@ $(function() {
 		globalIndex++;
 		if (globalIndex > strings.length - 1) { // reached end of string array
 			alert('test is done!');
-			globalIndex = 0;
 
 			 console.log('userData = ' + userData);
 			//create button
