@@ -126,7 +126,7 @@ $(function() {
 		var valLength = val.text().length;
 
 		val.text(val.text().substring(0, valLength - 1));
-		appendEntry(globalIndex, appendVal)
+		appendEntry(globalIndex, '&#x8;');
   	});
 
   	// swipe right --> add space
@@ -134,7 +134,7 @@ $(function() {
 		var appendVal = "\xa0";
   		var val = $('#inputText h1');
   		val.text(val.text() + appendVal);
-		appendEntry(globalIndex, appendVal);
+		appendEntry(globalIndex, " ");
 		scrollRight();
   	})
 
@@ -169,6 +169,7 @@ $(function() {
 		appendTrial(strings, globalIndex);
 		console.log(userData);
   	})    
+    
 /*******************Date stuff for <TextTest> node *********************/
     var rootElement = userData.documentElement; //grabs the <TextTest node>
     
@@ -272,7 +273,14 @@ $(function() {
 		var seconds = new Date().getTime() / 1000; //convert ms to seconds
 		var entryElement = userData.createElement("Entry");
 		entryElement.setAttribute("char", char);
-		entryElement.setAttribute("value", char.charCodeAt(0));
+        if (char == ' ') { //a space value has to be 32, charCodeAt returns 160
+            entryElement.setAttribute("value", 32);
+        } else if (char === '&#x8;') {
+            console.log('inside');
+            entryElement.setAttribute("value", 8); // a backspace value has to be 8, charCodeAt returns 38;
+        } else {
+            entryElement.setAttribute("value", char.charCodeAt(0));            
+        }
 		entryElement.setAttribute("ticks", ticks);		
 		entryElement.setAttribute("seconds", seconds);
 		userData.getElementsByTagName("Trial")[index].appendChild(entryElement);
