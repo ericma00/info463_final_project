@@ -170,7 +170,9 @@ $(function() {
 			
 		} 
 		currentString.innerHTML = '<p>' + strings[globalIndex] + '</p>';
-		appendTrial(strings, globalIndex);
+        if (globalIndex < strings.length) {
+    		appendTrial(strings, globalIndex);
+        }
 		console.log(userData);
   	})    
     
