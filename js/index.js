@@ -8,7 +8,7 @@ $(function() {
 	var BUTTON_NUM = 12;
 
 	var lowerCase =   ['n', 'a', 'h', 's', 'e', 'i', 'r', 'o', 't', 'CAPS', '__', '123'];
-	var upperCase =   ['N', 'A', 'H', 'S',' E', 'I', 'R', 'O', 'T', 'CAPS', '__', '123'];
+	var upperCase =   ['N', 'A', 'H', 'S','E', 'I', 'R', 'O', 'T', 'CAPS', '__', '123'];
 	var punctuation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '__', 'abc'];
 
 // lowercase
