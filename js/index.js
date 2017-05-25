@@ -169,7 +169,7 @@ $(function() {
 		appendTrial(strings, globalIndex);
 		console.log(userData);
   	})    
-	console.log(userData); //initial xml doc
+/*******************Date stuff for <TextTest> node *********************/
     var rootElement = userData.documentElement; //grabs the <TextTest node>
     
     rootElement.setAttribute("version", "2.7.2");
@@ -182,7 +182,8 @@ $(function() {
     var date = new Date();
     var currentDate = months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() + ' ' + date.getHours()  + ':' + date.getMinutes() + ':' + date.getSeconds();
     currentDate = formatDate(currentDate);
-    console.log(currentDate);
+    
+    // https://stackoverflow.com/questions/4898574/converting-24-hour-time-to-12-hour-time-w-am-pm-using-javascript
     function formatDate(date) {
         var d = new Date(date);
         var hh = d.getHours();
@@ -214,7 +215,6 @@ $(function() {
         return date.replace(pattern, replacement);
     }    
     
-        
     var currentDate = days[date.getDay()] + ', ' + currentDate;
     rootElement.setAttribute("date", currentDate);
 	console.log(userData);
