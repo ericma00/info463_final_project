@@ -230,7 +230,7 @@ $(function() {
 	$('#transcribeText').on('click', downloadButton, function() {
 		var a = document.createElement('a'), xml, ev;
 		a.download = 'Test_Result.xml'; // file name
-		xml = (new XMLSerializer()).serializeToString(userData); // convert node to xml string
+		xml = (new XMLSerializer()).serializeToString(userData).replace(/&amp;#x8;/gi, "&#x8;"); // convert node to xml string
 		a.href = 'data:application/octet-stream;base64,' + btoa(xml); // create data uri
 		// <a> constructed, simulate mouse click on it
 		ev = document.createEvent("MouseEvents");
